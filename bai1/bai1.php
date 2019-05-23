@@ -19,31 +19,38 @@
     <?php
         if (isset($_POST['result']))
         {
+
             $kq = '';
-            $a = isset($_POST['txta']) ? $_POST['txta'] : '';
-            $b = isset($_POST['txtb']) ? $_POST['txtb'] : '';
-            $c = isset($_POST['txtc']) ? $_POST['txtc'] : '';
 
-            $delta = ($b*$b) - (4*$a*$c);
+            $a = $_POST['txta'];
+            $b = $_POST['txtb'];
+            $c = $_POST['txtc'];
 
-            if ($delta < 0){
-                $kq = 'Phương trình vô nghiệp';
+            if($a =='' || $b == '' || $c == '')
+            {
+                echo "Nhập Đầy Đủ Data";
+                exit();
             }
-            else if ($delta == 0){
-                $kq = 'Phương trình nghiệp kép x1 = x2 = ' . (-$b/2*$a);
+            else{
+                if(!is_numeric($a) || ! is_numeric($b) || ! is_numeric($c))
+                {
+                    echo "Sai Dữ Liệu";
+                    exit();
+                }
+                $delta = ($b*$b) - (4*$a*$c);
+
+                if ($delta < 0){
+                    echo $kq = 'Phương trình vô nghiệp';
+                }
+                else if ($delta == 0){
+                    echo $kq = 'Phương trình nghiệp kép x1 = x2 = ' . (-$b/2*$a);
+                }
+                else {
+                    $kq = 'Phương trình có hai nghiệp phân biệt:'.'<br>'.'x1='.((-$b + sqrt($delta))/2*$a)."<br>".'x2 = '.((-$b - sqrt($delta))/2*$a);
+                    echo $kq;
+                }   
             }
-            else {
-                $kq = 'Phương trình có hai nghiệp phân biệt, x1 = ' . ((-$b + sqrt($delta))/2*$a);
-                $kq .= ',x2 = ' . ((-$b - sqrt($delta))/2*$a);
-            }   
         }
-    ?>
-    <?php
-        if(isset($_POST['result']))
-        {
-            echo $kq;
-        }
-        
     ?>
 </body>
 </html>
