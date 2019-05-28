@@ -43,8 +43,7 @@
 	<br>
 	<br>
 	<?php 
-		$name = array("SP_01","SP_02","SP_03","SP_04","SP_05","SP_06","SP_07","SP_08","SP_09");
-
+		
 		if(isset($_POST["btntao"]))
 		{	
 
@@ -60,22 +59,27 @@
 					echo "<h3>Data Phai La Number</h3>";
 					exit();
 				}
-				$arr_key = array('id','name','price','quantity','order','Total');
-			
-				$arr_value = array();
-				$total = 0;
-				for ($i=0; $i < $number ; $i++) { 
+							
+				$_SESSION['mang'] = create_array($number);
+			}		
+		}
+
+		function create_array($number)
+		{
+			$name = array("SP_01","SP_02","SP_03","SP_04","SP_05","SP_06","SP_07","SP_08","SP_09");
+			$arr_key = array('id','name','price','quantity','order','Total');
+			$arr_value = array();
+			$total = 0;
+			for ($i=0; $i < $number ; $i++) { 
 					$rand_name = $name[rand(0,8)];
 					$add_array = array($i,$rand_name,rand(0,5),rand(3,10),rand(100,105));	
 					$total = $add_array[2]*$add_array[4];	
 					$add_array[] = $total;
 					$array_combine  = array_combine($arr_key, $add_array);
 					array_push($arr_value, $array_combine );
-				}			
-				$_SESSION['mang'] = $arr_value;
-			}		
+				}
+			return $arr_value;
 		}
-
 		function sort_price_dsc($array) : array
 		{
 			$tg =array();
@@ -201,7 +205,6 @@
 		}
 		if(isset($_POST['totalgiam'])){
 			$_SESSION['mang'] = sort_total_dec($_SESSION['mang']);
-
 		}
 	?>
 	
@@ -219,7 +222,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php foreach($_SESSION['mang'] as $value): ?>
+				<?php if(isset($_SESSION['mang'])) foreach($_SESSION['mang'] as $value): ?>
 					<tr>
 						<td><?php echo $value['id']?></td>
 						<td><?php echo $value['name']?></td>
@@ -229,7 +232,6 @@
 						<td><?php echo $value['Total']?></td>
 					</tr>
 				<?php endforeach; ?>
-
 			</tbody>
 		</table>
 	</form>
