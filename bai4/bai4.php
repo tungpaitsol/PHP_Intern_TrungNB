@@ -60,20 +60,19 @@
 					echo "<h3>Data Phai La Number</h3>";
 					exit();
 				}
-				$arr = array('id','name','price','quantity','order','Total');
+				$arr_key = array('id','name','price','quantity','order','Total');
 			
-				$arr2 = array();
-				$v = 0;
-				$bb = array();
+				$arr_value = array();
+				$total = 0;
 				for ($i=0; $i < $number ; $i++) { 
-					$arre = $name[rand(0,8)];
-					$aa = array($i,$arre,rand(0,5),rand(3,10),rand(100,105));	
-					$v = $aa[2]*$aa[4];	
-					$aa[] = $v;
-					$te  = array_combine($arr, $aa);
-					array_push($arr2, $te );
+					$rand_name = $name[rand(0,8)];
+					$add_array = array($i,$rand_name,rand(0,5),rand(3,10),rand(100,105));	
+					$total = $add_array[2]*$add_array[4];	
+					$add_array[] = $total;
+					$array_combine  = array_combine($arr_key, $add_array);
+					array_push($arr_value, $array_combine );
 				}			
-				$_SESSION['mang'] = $arr2;
+				$_SESSION['mang'] = $arr_value;
 			}		
 		}
 
