@@ -64,7 +64,7 @@
 			}		
 		}
 
-		function create_array($number)
+		function create_array($number) : array
 		{
 			$name = array("SP_01","SP_02","SP_03","SP_04","SP_05","SP_06","SP_07","SP_08","SP_09");
 			$arr_key = array('id','name','price','quantity','order','Total');
@@ -73,20 +73,20 @@
 			for ($i=0; $i < $number ; $i++) { 
 					$rand_name = $name[rand(0,8)];
 					$add_array = array($i,$rand_name,rand(0,5),rand(3,10),rand(100,105));	
-					$total = $add_array[2]*$add_array[4];	
+					$total = $add_array[2]*$add_array[3];	
 					$add_array[] = $total;
 					$array_combine  = array_combine($arr_key, $add_array);
 					array_push($arr_value, $array_combine );
 				}
 			return $arr_value;
 		}
-		function sort_price_dsc($array) : array
+		function sort_ASC($array,$string) : array
 		{
 			$tg =array();
 			$count = count($array);
 			for ($i = 0; $i < ($count-1); $i++) { 
 				for ($j = ($i+1); $j < $count ; $j ++) { 
-					if($array[$i]['price'] > $array[$j]['price'])
+					if($array[$i][$string] > $array[$j][$string])
 					{
 						$tg = $array[$j];
 						$array[$j] = $array[$i];
@@ -97,13 +97,13 @@
 			return $array;
 		}
 
-		function sort_price_dec($array) : array
+		function sort_DESC($array,$string) : array
 		{
 			$tg =array();
 			$count = count($array);
 			for ($i = 0; $i < ($count-1); $i++) { 
 				for ($j = ($i+1); $j < $count ; $j ++) { 
-					if($array[$i]['price'] < $array[$j]['price'])
+					if($array[$i][$string] < $array[$j][$string])
 					{
 						$tg = $array[$j];
 						$array[$j] = $array[$i];
@@ -114,100 +114,33 @@
 			return $array;
 		}
 
-		function sort_order_dsc($array) : array
-		{
-			$tg =array();
-			$count = count($array);
-			for ($i = 0; $i < ($count-1); $i++) { 
-				for ($j = ($i+1); $j < $count ; $j ++) { 
-					if($array[$i]['order'] > $array[$j]['order'])
-					{
-						$tg = $array[$j];
-						$array[$j] = $array[$i];
-						$array[$i] = $tg;
-					}
-				}
-			}
-			return $array;
-		}
-
-		function sort_order_dec($array) : array
-		{
-			$tg =array();
-			$count = count($array);
-			for ($i = 0; $i < ($count-1); $i++) { 
-				for ($j = ($i+1); $j < $count ; $j ++) { 
-					if($array[$i]['order'] < $array[$j]['order'])
-					{
-						$tg = $array[$j];
-						$array[$j] = $array[$i];
-						$array[$i] = $tg;
-					}
-				}
-			}
-			return $array;
-		}
-
-		function sort_total_dsc($array) : array
-		{
-			$tg =array();
-			$count = count($array);
-			for ($i = 0; $i < ($count-1); $i++) { 
-				for ($j = ($i+1); $j < $count ; $j ++) { 
-					if($array[$i]['Total'] > $array[$j]['Total'])
-					{
-						$tg = $array[$j];
-						$array[$j] = $array[$i];
-						$array[$i] = $tg;
-					}
-				}
-			}
-			return $array;
-		}
-
-		function sort_total_dec($array) : array
-		{
-			$tg =array();
-			$count = count($array);
-			for ($i = 0; $i < ($count-1); $i++) { 
-				for ($j = ($i+1); $j < $count ; $j ++) { 
-					if($array[$i]['Total'] < $array[$j]['Total'])
-					{
-						$tg = $array[$j];
-						$array[$j] = $array[$i];
-						$array[$i] = $tg;
-					}
-				}
-			}
-			return $array;
-		}
+		
 
 		if(isset($_POST['prtang'])){
-			$_SESSION['mang'] = sort_price_dsc($_SESSION['mang']);
+			$_SESSION['mang'] = sort_ASC($_SESSION['mang'],'price');
 
 		}
 
 		if(isset($_POST['prgiam'])){
-			$_SESSION['mang'] = sort_price_dec($_SESSION['mang']);
+			$_SESSION['mang'] = sort_DESC($_SESSION['mang'],'price');
 
 		}
 		if(isset($_POST['odtang'])){
-			$_SESSION['mang'] = sort_order_dsc($_SESSION['mang']);
+			$_SESSION['mang'] = sort_ASC($_SESSION['mang'],'order');
 
 		}
 		if(isset($_POST['odgiam'])){
-			$_SESSION['mang'] = sort_order_dec($_SESSION['mang']);
+			$_SESSION['mang'] = sort_DESC($_SESSION['mang'],'order');
 
 		}
 		if(isset($_POST['totaltang'])){
-			$_SESSION['mang'] = sort_total_dsc($_SESSION['mang']);
+			$_SESSION['mang'] = sort_ASC($_SESSION['mang'],'Total');
 
 		}
 		if(isset($_POST['totalgiam'])){
-			$_SESSION['mang'] = sort_total_dec($_SESSION['mang']);
+			$_SESSION['mang'] = sort_DESC($_SESSION['mang'],'Total');
 		}
 	?>
-	
 	<form action="" method="get" accept-charset="utf-8">
 		<table style="margin: auto">
 			<caption>Danh Sách Sản Phẩm</caption>
