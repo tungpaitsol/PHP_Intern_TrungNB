@@ -100,39 +100,18 @@
 			$array1 = sort_ASC($array1,$string1);
 			return $array1;
 		}
-		// function edit_order($number,$array1,$array2,$string1) : array
-		// {
-		// 	for ($i = 0; $i < $number; $i ++) { 
-		// 		if($array1[$i][$string1] != $array2[$i])
-		// 		{
-		// 			$array1[$i][$string1] = $array2[$i];
-		// 		}	
-		// 	}
-		// 	return $array1;
-		// }
-		if(isset($_POST['btnsave']))
-		{
-			//$_SESSION['mang'] = edit_order($_SESSION['number'],$_SESSION['mang'],$_POST['txtorder'],'order');	
-			echo "<pre>";
-			$arr = array('id','order');
-			$newarr = array_chunk($_POST['txtorder'],1);
-			$arr_one = array();
-			$arr_two = array();
-			$arr_three = array();
-			foreach ($_SESSION['mang'] as $key => $value) {
-				array_push($arr_three, $value['id']);
-			}
-			for ($i=0; $i < $_SESSION['number']; $i++) {
-				array_unshift($newarr[$i], $arr_three[$i]);
-				$arr_one = array_combine($arr, $newarr[$i]);
-				array_push($arr_two, $arr_one);
-			}
-			for ($j=0; $j < $_SESSION['number']; $j++) {
-				if($_SESSION['mang'][$j]['id'] == $arr_two[$j]['id'])
-				{
-					$_SESSION['mang'][$j]['order'] = $arr_two[$j]['order'];
-				}	
-			}
+		if(isset($_POST['btnsave'])){
+			$newarr = [];
+				foreach ($_SESSION['mang'] as $key => $value) {
+					$arr = array('id'=>$value['id']);
+					array_push($newarr, $arr);
+				}
+				for ($i=0; $i < $_SESSION['number']; $i++) {
+					$newarr[$i]['order'] = $_POST['txtorder'][$i];
+						if($_SESSION['mang'][$i]['id'] == $newarr[$i]['id']){
+							$_SESSION['mang'][$i]['order'] = $newarr[$i]['order'];
+						}
+					}
 		}
 		if(isset($_POST['odtang'])){
 			$_SESSION['mang'] = order_ASC($_SESSION['number'],$_SESSION['mang'],'order','id');
