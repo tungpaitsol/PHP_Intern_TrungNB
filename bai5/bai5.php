@@ -20,13 +20,7 @@
 	</style>
 </head>
 <body>
-	<form action="" method="POST" accept-charset="utf-8">
-		<table style="margin: auto">
-				<input type="text" name="txtnum" value="<?php if(isset($_POST['txtnum'])) echo $_POST['txtnum']?>">
-				<input type="submit" name="btntao"  value="Tao Mang">
-				<input type="submit" name="odtang" value="Order Tang">
-		</table>
-	</form>
+	
 	<br>
 	<br>
 	<?php 
@@ -51,6 +45,7 @@
 				$_SESSION['number'] = $number;
 			}		
 		}
+		$arrr = $_SESSION['mang'];
 		function create_array($number)
 		{
 			$name = array("SP_01","SP_02","SP_03","SP_04","SP_05","SP_06","SP_07","SP_08","SP_09");
@@ -100,26 +95,41 @@
 			$array1 = sort_ASC($array1,$string1);
 			return $array1;
 		}
-		if(isset($_POST['btnsave'])){
+		function edit_order($array1,$number,$array2,$str1,$str2) : array
+		{
 			$newarr = [];
-				foreach ($_SESSION['mang'] as $key => $value) {
-					$arr = array('id'=>$value['id']);
+				foreach ($array1 as $key => $value) {
+					$arr = array($str1=>$value[$str1]);
 					array_push($newarr, $arr);
 				}
-				for ($i=0; $i < $_SESSION['number']; $i++) {
-					$newarr[$i]['order'] = $_POST['txtorder'][$i];
-						if($_SESSION['mang'][$i]['id'] == $newarr[$i]['id']){
-							$_SESSION['mang'][$i]['order'] = $newarr[$i]['order'];
+				for ($i=0; $i < $number; $i++) {
+					$newarr[$i][$str2] = $array2[$i];
+						if($array1[$i][$str1] == $newarr[$i][$str1]){
+							$array1[$i][$str2] = $newarr[$i][$str2];
 						}
 					}
+			return $array1;
+		}
+		if(isset($_POST['btnsave'])){		
+			$arrr = edit_order($_SESSION['mang'],$_POST['txtnum'],$_POST['txtorder'],'id','order');
+			$_SESSION['mang'] = $arrr;
 		}
 		if(isset($_POST['odtang'])){
-			$_SESSION['mang'] = order_ASC($_SESSION['number'],$_SESSION['mang'],'order','id');
+			$arrr = order_ASC($_SESSION['number'],$_SESSION['mang'],'order','id');
+			$_SESSION['mang'] = $arrr;
 		}
 	?>	
 	<form action="" method="POST" accept-charset="utf-8">
 		<table style="margin: auto">
-			<caption>Danh Sách Sản Phẩm</caption>
+			<div>
+				<input type="text" name="txtnum" value="<?php if(isset($_POST['txtnum'])) echo $_POST['txtnum']?>">
+				<input type="submit" name="btntao"  value="Tao Mang">
+				<input type="submit" style="width: 100px" name="btnsave" value="Save">
+				<input type="submit" name="odtang" value="Order Tang">
+			</div>
+			<caption>
+				
+			</caption>
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -144,7 +154,7 @@
 					</tr>
 				<?php endforeach; ?>
 					<tr>
-						<td colspan="6"><input type="submit" style="width: 100px" name="btnsave" value="Save"></td>
+						
 					</tr>
 			</tbody>
 		</table>
