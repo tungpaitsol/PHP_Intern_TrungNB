@@ -96,14 +96,11 @@
 		}
 
 		if(isset($_POST['btnsave'])){
-			foreach ($_SESSION['mang'] as  $value) {
-				foreach ($_POST['txtorder'] as $k => $val) {
-					if($value['id'] == $k)
-					{
-						$_SESSION['mang'][$k]['order'] = $val['order']; 
-					}
-				}
-			}			
+			$products = $_SESSION['mang'];
+			foreach ($products as &$value) {
+                $value['order'] = $_POST['txtorder'][$value['id']];
+			}
+			$_SESSION['mang'] = $products;
 		}
 		if(isset($_POST['odtang'])){
 			$arrr = order_ASC($_SESSION['number'],$_SESSION['mang'],'order','id');
@@ -140,7 +137,7 @@
 						<td><?php echo $value['name']?></td>
 						<td><?php echo $value['price']?></td>
 						<td><?php echo $value['quantity']?></td>
-						<td><input type="text" name="txtorder[<?php echo $value['id']?>][order]" value="<?php echo $value['order']?>">
+						<td><input type="text" name="txtorder[<?php echo $value['id']?>]" value="<?php echo $value['order']?>">
 						</td>
 						<td><?php echo $value['Total']?></td>	
 					</tr>
