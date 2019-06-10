@@ -89,36 +89,27 @@
 						$array1[$j] = $array1[$i];
 						$array1[$i] = $tg;
 					}
-					
 				}	
 			}
 			$array1 = sort_ASC($array1,$string1);
 			return $array1;
 		}
-		function edit_order($array1,$number,$array2,$str1,$str2) : array
-		{
-			$newarr = [];
-				foreach ($array1 as $key => $value) {
-					$arr = array($str1=>$value[$str1]);
-					array_push($newarr, $arr);
+
+		if(isset($_POST['btnsave'])){
+			foreach ($_SESSION['mang'] as $key => $value) {
+				if($value['id'] == $key)
+				{
+					$_SESSION['mang'][$key]['order'] = $_POST['txtorder'][$key]['order'];
 				}
-				for ($i=0; $i < $number; $i++) {
-					$newarr[$i][$str2] = $array2[$i];
-						if($array1[$i][$str1] == $newarr[$i][$str1]){
-							$array1[$i][$str2] = $newarr[$i][$str2];
-						}
-					}
-			return $array1;
-		}
-		if(isset($_POST['btnsave'])){		
-			$arrr = edit_order($_SESSION['mang'],$_POST['txtnum'],$_POST['txtorder'],'id','order');
-			$_SESSION['mang'] = $arrr;
+			}	
 		}
 		if(isset($_POST['odtang'])){
 			$arrr = order_ASC($_SESSION['number'],$_SESSION['mang'],'order','id');
 			$_SESSION['mang'] = $arrr;
+			
 		}
 	?>	
+
 	<form action="" method="POST" accept-charset="utf-8">
 		<table style="margin: auto">
 			<div>
@@ -141,15 +132,14 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php if(isset($_SESSION['mang'])) foreach($_SESSION['mang'] as $value): ?>
+				<?php if(isset($_SESSION['mang'])) foreach($_SESSION['mang'] as $key=>$value): ?>
 					<tr>
 						<td><?php echo $value['id']?></td>
 						<td><?php echo $value['name']?></td>
 						<td><?php echo $value['price']?></td>
 						<td><?php echo $value['quantity']?></td>
-						<td><input id="<?php echo $value['id']?>" type="text" name="txtorder[]" value="<?php echo $value['order']?>">
+						<td><input type="text" name="txtorder[<?php echo $value['id']?>][order]" value="<?php echo $value['order']?>">
 						</td>
-						
 						<td><?php echo $value['Total']?></td>	
 					</tr>
 				<?php endforeach; ?>
@@ -159,8 +149,5 @@
 			</tbody>
 		</table>
 	</form>
-	<?php 
-		
-	?>
 </body>
 </html>
