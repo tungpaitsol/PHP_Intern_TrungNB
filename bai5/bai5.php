@@ -96,12 +96,14 @@
 		}
 
 		if(isset($_POST['btnsave'])){
-			foreach ($_SESSION['mang'] as $key => $value) {
-				if($value['id'] == $key)
-				{
-					$_SESSION['mang'][$key]['order'] = $_POST['txtorder'][$key]['order'];
+			foreach ($_SESSION['mang'] as  $value) {
+				foreach ($_POST['txtorder'] as $k => $val) {
+					if($value['id'] == $k)
+					{
+						$_SESSION['mang'][$k]['order'] = $val['order']; 
+					}
 				}
-			}	
+			}			
 		}
 		if(isset($_POST['odtang'])){
 			$arrr = order_ASC($_SESSION['number'],$_SESSION['mang'],'order','id');
