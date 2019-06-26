@@ -200,6 +200,8 @@ class Intermediary
 		foreach ($listEmployees as $employee) {
 			$workDay = 0;
 			foreach ($newListTimes as $listime) {
+				if ($employee->getCode() !== $listime->getMemberCode()) 
+					continue;
 				$startTime = $employee->getStartWorkTime();
 				$startDateWork = strtotime($listime->getStartDatetime());
 				$endDateWork = strtotime($listime->getEndDatetime());
@@ -210,13 +212,11 @@ class Intermediary
 				else{
 					$totalTimeWork = strtotime('+8 hour',strtotime($startTime));
 				}
-				if ($employee->getCode() == $listime->getMemberCode()) {
-					if($startTime >= date("H:i:s",$startDateWork) || date("H:i:s",$totalTimeWork) >= date("H:i:s",$endDateWork)){
-						$workDay = $workDay + 1;
-					}
-					else{
-						$workDay = $workDay + 0.5;
-					}
+				if($startTime >= date("H:i:s",$startDateWork) || date("H:i:s",$totalTimeWork) >= date("H:i:s",$endDateWork)){
+					$workDay = $workDay + 1;
+				}
+				else{
+					$workDay = $workDay + 0.5;
 				}
 			}
 			$employee->setWorkdays($workDay);	
@@ -267,7 +267,6 @@ class Intermediary
 		}
 	}
 }
-
 foreach ($listMemberFullTime as $MemberFullTime) {
 	$memberFulltimes[] = new Employee($MemberFullTime['code'],$MemberFullTime['full_name'],$MemberFullTime['age'],$MemberFullTime['gender'],$MemberFullTime['marital_status'],$MemberFullTime['salary'],$MemberFullTime['total_work_time'],$MemberFullTime['workdays'],$MemberFullTime['start_work_time'],$MemberFullTime['work_hour'],$MemberFullTime['has_lunch_break']); 
 }
