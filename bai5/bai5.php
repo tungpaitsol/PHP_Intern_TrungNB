@@ -20,20 +20,13 @@
 	</style>
 </head>
 <body>
-	<form action="" method="POST" accept-charset="utf-8">
-		<table style="margin: auto">
-				<input type="text" name="txtnum" value="<?php if(isset($_POST['txtnum'])) echo $_POST['txtnum']?>">
-				<input type="submit" name="btntao"  value="Tao Mang">
-				<input type="submit" name="odtang" value="Order Tang">
-		</table>
-	</form>
+	
 	<br>
 	<br>
 	<?php 
 		
 		if(isset($_POST["btntao"]))
 		{	
-
 			$number = isset($_POST['txtnum']) ? $_POST['txtnum'] : '';
 			if($number == '')
 			{
@@ -52,7 +45,7 @@
 				$_SESSION['number'] = $number;
 			}		
 		}
-
+		$arrr = $_SESSION['mang'];
 		function create_array($number)
 		{
 			$name = array("SP_01","SP_02","SP_03","SP_04","SP_05","SP_06","SP_07","SP_08","SP_09");
@@ -61,7 +54,7 @@
 			$total = 0;
 			for ($i=0; $i < $number ; $i++) { 
 					$rand_name = $name[rand(0,8)];
-					$add_array = array($i,$rand_name,rand(0,5),rand(3,10),rand(100,105));	
+					$add_array = array($i,$rand_name,rand(100,1000),rand(10,20),rand(10,500));	
 					$total = $add_array[2]*$add_array[4];	
 					$add_array[] = $total;
 					$array_combine  = array_combine($arr_key, $add_array);
@@ -96,43 +89,37 @@
 						$array1[$j] = $array1[$i];
 						$array1[$i] = $tg;
 					}
-					
 				}	
 			}
 			$array1 = sort_ASC($array1,$string1);
 			return $array1;
 		}
-		function edit_order($number,$array1,$array2,$string1) : array
-		{
-			for ($i = 0; $i < $number; $i ++) { 
-				for ($j = $i+1; $j < $number; $j ++) { 
-					if($array1[$i][$string1] != $array2[$i])
-					{
-						$array1[$i][$string1] = $array2[$i];
 
-					}	
-				}
+		if(isset($_POST['btnsave'])){
+			$products = $_SESSION['mang'];
+			foreach ($products as &$value) {
+                $value['order'] = $_POST['txtorder'][$value['id']];
 			}
-			return $array1;
+			$_SESSION['mang'] = $products;
 		}
-
-		if(isset($_POST['btnsave']))
-		{
-			$_SESSION['mang'] = edit_order($_SESSION['number'],$_SESSION['mang'],$_POST['txtorder'],'order');
-
-		}
-
 		if(isset($_POST['odtang'])){
-			$_SESSION['mang'] = order_ASC($_SESSION['number'],$_SESSION['mang'],'order','id');
-
+			$arrr = order_ASC($_SESSION['number'],$_SESSION['mang'],'order','id');
+			$_SESSION['mang'] = $arrr;
+			
 		}
+	?>	
 
-
-	?>
-	
 	<form action="" method="POST" accept-charset="utf-8">
 		<table style="margin: auto">
-			<caption>Danh Sách Sản Phẩm</caption>
+			<div>
+				<input type="text" name="txtnum" value="<?php if(isset($_POST['txtnum'])) echo $_POST['txtnum']?>">
+				<input type="submit" name="btntao"  value="Tao Mang">
+				<input type="submit" style="width: 100px" name="btnsave" value="Save">
+				<input type="submit" name="odtang" value="Order Tang">
+			</div>
+			<caption>
+				
+			</caption>
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -144,24 +131,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				<?php if(isset($_SESSION['mang'])) foreach($_SESSION['mang'] as $value): ?>
+				<?php if(isset($_SESSION['mang'])) foreach($_SESSION['mang'] as $key=>$value): ?>
 					<tr>
 						<td><?php echo $value['id']?></td>
 						<td><?php echo $value['name']?></td>
 						<td><?php echo $value['price']?></td>
 						<td><?php echo $value['quantity']?></td>
-						<td><input id="<?php echo $value['id']?>" type="text" name="txtorder[]" value="<?php echo $value['order']?>"></td>
-						<td><?php echo $value['Total']?></td>
+						<td><input type="text" name="txtorder[<?php echo $value['id']?>]" value="<?php echo $value['order']?>">
+						</td>
+						<td><?php echo $value['Total']?></td>	
 					</tr>
 				<?php endforeach; ?>
 					<tr>
-						<td><input type="submit" name="btnsave" value="Save"></td>
+						
 					</tr>
 			</tbody>
 		</table>
 	</form>
-	<?php 
-		
-	?>
 </body>
 </html>
