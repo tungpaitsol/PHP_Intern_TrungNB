@@ -190,7 +190,6 @@ class Intermediary
 		'2019-05-19'
 	];
 
-	
 	/**
 	 * [setWorkDay void]
 	 * @param [object] $listEmployees  [object truyền vào Employee]
