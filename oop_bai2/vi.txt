@@ -1,0 +1,6 @@
+firtname="Nhập Họ"
+lastname="Nhập Tên"
+name="Tên Đăng Nhập"
+password="Mật Khẩu"
+email="Email"
+confrim_password="Nhập Lại Mật Khẩu"

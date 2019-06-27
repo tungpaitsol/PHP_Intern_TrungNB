@@ -1,0 +1,6 @@
+firtname="Firt Name"
+lastname="Last Name"
+name="Name"
+email="Email"
+password="Password"
+confrim_password="Confirm Password"
