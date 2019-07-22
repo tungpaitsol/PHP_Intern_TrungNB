@@ -548,7 +548,6 @@ $listBillFood = Context::totalFooddrink($listBill,$listbillfoodDrink);
 $listBills = Context::setTotalBill($listBill,$listBillFood,$listBillEmployee);
 Context::setsalaryEmployee($listEmployee,$listbillEmployee,$listBills);
 
-
 foreach ($listBills as $bill) {
 	echo "---------------------------------"."Bill:".$bill->getCodeBill()."------------------------------"."<br>";
 	echo "------- DANH SÁCH ĐỒ ĂN -------: "."<br>";
